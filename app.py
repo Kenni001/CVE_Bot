@@ -10,7 +10,7 @@ def index():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.form['user_input']
+    user_input = request.json['user_input']
     cve_id = extract_cve_id(user_input)
     cve_details = get_cve_details(cve_id)
     response = generate_response(user_input, cve_details)
