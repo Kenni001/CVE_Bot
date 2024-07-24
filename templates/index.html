@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CVE Chatbot</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>CVE Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="chat-container">
-        <h1>CVE Chatbot</h1>
-        <div class="chat-box">
-            <div id="chat-log"></div>
-            <input type="text" id="user-input" placeholder="Ask about a CVE...">
-            <button onclick="sendMessage()">Send</button>
+    <div class="container">
+        <h1>CVE Details</h1>
+        <form method="post" class="cve-form">
+            <label for="cve_code">Enter the CVE code:</label>
+            <input type="text" id="cve_code" name="cve_code" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if details %}
+        <div class="details">
+            <h2>Details for {{ details['CVE ID'] }}</h2>
+            <ul>
+                <li><strong>Description:</strong> {{ details['Description'] }}</li>
+                <li><strong>Published Date:</strong> {{ details['Published Date'] }}</li>
+                <li><strong>Last Modified Date:</strong> {{ details['Last Modified Date'] }}</li>
+                <li><strong>CVSS Base Score:</strong> {{ details['CVSS Base Score'] }}</li>
+                <li><strong>References:</strong>
+                    <ul>
+                        {% for ref in details['References'] %}
+                        <li><a href="{{ ref }}" target="_blank">{{ ref }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><strong>Vulnerable Software:</strong>
+                    <ul>
+                        {% for software in details['Vulnerable Software'] %}
+                        <li>{{ software }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
         </div>
+        {% endif %}
     </div>
-    <script>
-        function sendMessage() {
-            const userInput = document.getElementById('user-input').value;
-            const chatLog = document.getElementById('chat-log');
-
-            const userMessage = document.createElement('div');
-            userMessage.className = 'user-message';
-            userMessage.textContent = userInput;
-            chatLog.appendChild(userMessage);
-
-            fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user_input: userInput }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                const botMessage = document.createElement('div');
-                botMessage.className = 'bot-message';
-                botMessage.textContent = data.response;
-                chatLog.appendChild(botMessage);
-            });
-        }
-    </script>
 </body>
 </html>
