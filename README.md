@@ -8,7 +8,10 @@ This project is a simple chatbot that provides information about CVEs (Common Vu
 
     ```bash
     cd CVE_chat_AI
+    ```
+
 2. Install dependencies:
 
    ```bash
-   pip install -r requirements.txts
+   pip install -r requirements.txt
+   ```
