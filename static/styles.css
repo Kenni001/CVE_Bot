@@ -1,99 +1,187 @@
-/* styles.css */
-
+/* General Body Styling */
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f8fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #333;
     margin: 0;
     padding: 0;
-    color: #333;
 }
 
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+h1, h2 {
+    color: #444;
 }
 
 h1 {
-    font-size: 2.5em;
-    font-weight: 600;
-    color: #111;
+    background: #007bff;
+    color: #fff;
+    padding: 20px 0;
     text-align: center;
+    border-bottom: 5px solid #0056b3;
+}
+
+h2 {
+    color: #007bff;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-.cve-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Form Styling */
+form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.cve-form label {
-    font-size: 1.1em;
-    font-weight: 500;
-}
-
-.cve-form input {
+input[type="text"] {
+    width: calc(100% - 24px);
     padding: 12px;
-    font-size: 1em;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-    transition: border-color 0.3s;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-.cve-form input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
-}
-
-.cve-form button {
+button {
+    width: 100%;
     padding: 12px;
-    background-color: #007bff;
+    background: #007bff;
     color: #fff;
     border: none;
-    border-radius: 6px;
-    font-size: 1.1em;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 18px;
+    transition: background 0.3s ease;
 }
 
-.cve-form button:hover {
-    background-color: #0056b3;
+button:hover {
+    background: #0056b3;
 }
 
+/* Details Section Styling */
 .details {
-    margin-top: 30px;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.details h2 {
-    font-size: 1.8em;
-    color: #222;
-    margin-bottom: 15px;
+.details p {
+    margin: 15px 0;
+    font-size: 18px;
 }
 
 .details ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.details li {
-    margin-bottom: 15px;
+.details ul li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
 }
 
-.details strong {
-    color: #555;
-}
-
-.details a {
+.details ul li a {
     color: #007bff;
     text-decoration: none;
-    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-.details a:hover {
-    text-decoration: underline;
+.details ul li a:hover {
+    color: #0056b3;
+}
+
+/* Error Styling */
+.error {
+    color: #dc3545;
+    font-weight: bold;
+    font-size: 18px;
+    background: #f8d7da;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #f5c6cb;
+    margin-bottom: 20px;
+}
+
+/* Toggle Details Button */
+button.toggle {
+    background: #6c757d;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+button.toggle:hover {
+    background: #5a6268;
+}
+
+/* CAPEC Section Styling */
+.capec {
+    margin: 30px 0;
+}
+
+.capec ul {
+    padding: 0;
+    margin: 0;
+}
+
+.capec ul li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+.capec ul li a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.capec ul li a:hover {
+    color: #0056b3;
+}
+
+.capec div {
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.capec div p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    form, .details {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    button {
+        font-size: 16px;
+    }
+    
+    .details p, .details ul li {
+        font-size: 14px;
+    }
+    
+    .capec div p {
+        font-size: 14px;
+    }
 }

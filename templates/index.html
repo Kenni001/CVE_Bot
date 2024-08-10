@@ -3,43 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CVE Details</title>
+    <title>CVE Details Lookup</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .hidden {
+            display: none;
+        }
+        .capec-item {
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>CVE Details</h1>
-        <form method="post" class="cve-form">
-            <label for="cve_code">Enter the CVE code:</label>
-            <input type="text" id="cve_code" name="cve_code" required>
-            <button type="submit">Submit</button>
+        <h1>CVE Details Lookup</h1>
+        <form method="POST">
+            <input type="text" name="cve_code" placeholder="Enter CVE Code (e.g., CVE-2021-44228)" required>
+            <button type="submit">Search</button>
         </form>
-
+        
         {% if details %}
-        <div class="details">
-            <h2>Details for {{ details['CVE ID'] }}</h2>
-            <ul>
-                <li><strong>Description:</strong> {{ details['Description'] }}</li>
-                <li><strong>Published Date:</strong> {{ details['Published Date'] }}</li>
-                <li><strong>Last Modified Date:</strong> {{ details['Last Modified Date'] }}</li>
-                <li><strong>CVSS Base Score:</strong> {{ details['CVSS Base Score'] }}</li>
-                <li><strong>References:</strong>
-                    <ul>
-                        {% for ref in details['References'] %}
-                        <li><a href="{{ ref }}" target="_blank">{{ ref }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <li><strong>Vulnerable Software:</strong>
-                    <ul>
-                        {% for software in details['Vulnerable Software'] %}
-                        <li>{{ software }}</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            </ul>
-        </div>
+            {% if details.error %}
+                <div class="error">{{ details.error }}</div>
+            {% else %}
+                <div class="results">
+                    <h2>{{ details['CVE ID'] }}</h2>
+                    <p><strong>Description:</strong> {{ details['Description'] }}</p>
+                    <p><strong>Published Date:</strong> {{ details['Published Date'] }}</p>
+                    <p><strong>Last Modified Date:</strong> {{ details['Last Modified Date'] }}</p>
+                    <p><strong>CVSS Base Score:</strong> {{ details['CVSS Base Score'] }}</p>
+                    <p><strong>Impact:</strong> {{ details['Impact'] }}</p>
+                    <p><strong>Exploitability:</strong> {{ details['Exploitability'] }}</p>
+                    <p><strong>CWE:</strong> <a href="{{ details['CWE URL'] }}" target="_blank">{{ details['CWE'] }}</a></p>
+                    <p><strong>Access Vector:</strong> {{ details['Access Vector'] }}</p>
+                    <p><strong>Access Complexity:</strong> {{ details['Access Complexity'] }}</p>
+                    <p><strong>Authentication:</strong> {{ details['Authentication'] }}</p>
+                    <p><strong>Confidentiality:</strong> {{ details['Confidentiality'] }}</p>
+                    <p><strong>Integrity:</strong> {{ details['Integrity'] }}</p>
+                    <p><strong>Availability:</strong> {{ details['Availability'] }}</p>
+
+                    <div class="section">
+                        <h3>CAPEC</h3>
+                        <ul id="capec-list">
+                            {% if details['CAPEC'] %}
+                                {% for capec in details['CAPEC'] %}
+                                    <li class="capec-item" data-id="{{ capec['id'] }}">
+                                        CAPEC-{{ capec['id'] }}: {{ capec['name'] }}
+                                        <div class="capec-description hidden">
+                                            <p><strong>Summary:</strong> {{ capec['summary'] }}</p>
+                                            <p><strong>Prerequisites:</strong> {{ capec['prerequisites'] }}</p>
+                                            <p><strong>Solutions:</strong> {{ capec['solutions'] }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li>No CAPEC details available.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>References</h3>
+                        <ul>
+                            {% for reference in details['References'] %}
+                                <li><a href="{{ reference }}" target="_blank">{{ reference }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h3>Vulnerable Configurations</h3>
+                        <ul>
+                            {% for config in details['Vulnerable Configurations'][:5] %}
+                                <li>{{ config['title'] }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% if details['Vulnerable Configurations']|length > 5 %}
+                            <button id="show-more-configs">Show More</button>
+                            <ul id="more-configs" class="hidden">
+                                {% for config in details['Vulnerable Configurations'][5:] %}
+                                    <li>{{ config['title'] }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="section">
+                        <h3>Vulnerable Software</h3>
+                        <ul>
+                            {% for software in details['Vulnerable Software'] %}
+                                <li>{{ software }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
+
+    <script>
+        document.querySelectorAll('.capec-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                this.querySelector('.capec-description').classList.toggle('hidden');
+            });
+        });
+        
+        document.getElementById('show-more-configs')?.addEventListener('click', function() {
+            document.getElementById('more-configs').classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
