@@ -7,7 +7,7 @@ This project is a simple chatbot that provides information about CVEs (Common Vu
 1. Clone the repository:
 
     ```bash
-    cd CVE_chat_AI
+    cd CVE_Bot
     ```
 
 2. Install dependencies:
